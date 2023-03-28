@@ -1,0 +1,34 @@
+package edu.unimagdalena.demo.entidades;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@Table(name = "course_material")
+@NoArgsConstructor
+@AllArgsConstructor
+public class CourseMaterial {
+
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;//podemos utilizar Integer(pequeño), Long(medio), BitDecimal(grande).
+    
+    private String url;
+
+    @OneToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
+
+
+}
