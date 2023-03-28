@@ -11,9 +11,9 @@ import edu.unimagdalena.demo.repositories.StudentRepository;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+    @Autowired
     private final StudentRepository studentRepository;
     
-    @Autowired
     public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }

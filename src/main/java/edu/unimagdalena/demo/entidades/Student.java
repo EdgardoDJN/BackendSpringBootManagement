@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +38,8 @@ public class Student {
     private LocalDate birthDate;
     @Enumerated(EnumType.STRING)//nos dice si es MALE o FEMALE y ordinal es el numero dependiendo de la posicion
     private Gender gender;
-
+    
+    @JsonIgnore//para que no se muestre en el json
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses;
 }

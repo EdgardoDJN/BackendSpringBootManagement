@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.unimagdalena.demo.api.dto.CourseCreateDto;
 import edu.unimagdalena.demo.api.dto.CourseDto;
 import edu.unimagdalena.demo.api.dto.CourseMapper;
-import edu.unimagdalena.demo.api.dto.TeacherDto;
 import edu.unimagdalena.demo.entidades.Course;
-import edu.unimagdalena.demo.entidades.Student;
-import edu.unimagdalena.demo.entidades.Teacher;
 import edu.unimagdalena.demo.services.CourseService;
 import edu.unimagdalena.demo.exceptions.CourseNotFoundException;
 
