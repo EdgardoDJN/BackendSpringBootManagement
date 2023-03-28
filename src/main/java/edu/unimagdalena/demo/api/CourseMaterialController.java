@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.unimagdalena.demo.api.dto.CourseCreateDto;
 import edu.unimagdalena.demo.api.dto.CourseMaterialCreateDto;
 import edu.unimagdalena.demo.api.dto.CourseMaterialDto;
 import edu.unimagdalena.demo.api.dto.CourseMaterialMapper;
 import edu.unimagdalena.demo.entidades.CourseMaterial;
 import edu.unimagdalena.demo.services.CourseMaterialService;
+import edu.unimagdalena.demo.exceptions.CourseMaterialNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,13 +39,11 @@ public class CourseMaterialController {
     }
 
     @GetMapping("/coursesMaterial/{id}")
-    public ResponseEntity<CourseMaterialDto> getCourse(@PathVariable Long id) {
-        Optional<CourseMaterial> courseMaterial = courseMaterialService.find(id);
-        if (courseMaterial.isPresent()) {
-            return ResponseEntity.ok(courseMaterialMapper.toDto(courseMaterial));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<CourseMaterialCreateDto> getCourse(@PathVariable Long id) {
+		CourseMaterialCreateDto data = courseMaterialService.find(id)
+                    .map(x -> courseMaterialMapper.toCreateDto(x))
+                    .orElseThrow(CourseMaterialNotFoundException::new);
+        return ResponseEntity.status(HttpStatus.FOUND).body(data);
     }
     @GetMapping("/coursesMaterial")
     public ResponseEntity<List<CourseMaterialDto>> getAllCourseMaterials() {

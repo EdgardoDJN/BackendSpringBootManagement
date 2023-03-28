@@ -2,8 +2,9 @@ package edu.unimagdalena.demo.api;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +29,7 @@ import edu.unimagdalena.demo.entidades.Course;
 import edu.unimagdalena.demo.entidades.Student;
 
 import edu.unimagdalena.demo.services.StudentService;
+import edu.unimagdalena.demo.exceptions.DuplicateCodigoException;
 import edu.unimagdalena.demo.exceptions.StudentNotFoundException;
 
 @RestController
@@ -89,10 +91,20 @@ public class EstudianteController {
     }
     @PostMapping("/students")
     public ResponseEntity<StudentCreateDto> createStudent(@RequestBody StudentDto studentDto) {
-        Student student = studentMapper.toEntity(studentDto);
-        Student createdStudent = studentService.create(student);
-        StudentCreateDto createdStudentDto = studentMapper.toCreateDto(createdStudent);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdStudentDto);
+		Student student = studentMapper.toEntity(studentDto);
+        Student studentCreated = null;
+        try {
+            studentCreated = studentService.create(student);
+        } catch (Exception e) {
+            throw new DuplicateCodigoException();
+        }
+		StudentCreateDto studentCreatedDto = studentMapper.toCreateDto(studentCreated);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(studentCreatedDto.getId())
+                        .toUri();
+        return ResponseEntity.created(location).body(studentCreatedDto);
     }
     /*@PostMapping("/studentscourses/id")
     public ResponseEntity<StudentCourseDto> addCoursesToStudent(@PathVariable Long id, @RequestBody StudentCourseDto studentCourseDto) {
