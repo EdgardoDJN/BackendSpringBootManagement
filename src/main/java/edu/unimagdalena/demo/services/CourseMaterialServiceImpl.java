@@ -6,14 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.unimagdalena.demo.entidades.Course;
 import edu.unimagdalena.demo.entidades.CourseMaterial;
 import edu.unimagdalena.demo.repositories.CourseMaterialRepository;
 
 @Service
 public class CourseMaterialServiceImpl implements CourseMaterialService {
-    private final CourseMaterialRepository courseMaterialRepository;
     @Autowired
+    private final CourseMaterialRepository courseMaterialRepository;
+    
     public CourseMaterialServiceImpl(CourseMaterialRepository courseMaterialRepository) {
         this.courseMaterialRepository = courseMaterialRepository;
     }

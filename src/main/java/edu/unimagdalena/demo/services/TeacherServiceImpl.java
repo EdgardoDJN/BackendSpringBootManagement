@@ -11,10 +11,10 @@ import edu.unimagdalena.demo.repositories.TeacherRepository;
 @Service
 public class TeacherServiceImpl implements TeacherService {
     //Por el hecho de ser final toca crear un constructor
+    @Autowired
     private final TeacherRepository teacherRepository;
 
     //Inyectamos el repositorio por constructor para poder usarlo sin nigun problema abajo
-    @Autowired
     public TeacherServiceImpl(TeacherRepository teacherRepository) {
         this.teacherRepository = teacherRepository;
     }

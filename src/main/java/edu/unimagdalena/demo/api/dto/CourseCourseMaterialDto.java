@@ -8,7 +8,7 @@ import edu.unimagdalena.demo.entidades.Teacher;
 
 public class CourseCourseMaterialDto {
     private String name;
-    private Teacher teacher;
-    private Set<Student> students;
-    private CourseMaterial courseMaterial;
+    private TeacherCreationDto teacher;
+    private Set<StudentCreateDto> students;
+    private CourseMaterialCreateDto courseMaterial;
 }
