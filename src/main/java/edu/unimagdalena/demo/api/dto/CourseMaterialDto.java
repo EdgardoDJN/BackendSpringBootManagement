@@ -1,5 +1,4 @@
 package edu.unimagdalena.demo.api.dto;
-
 import edu.unimagdalena.demo.entidades.Course;
 import lombok.Data;
 

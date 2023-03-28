@@ -1,6 +1,5 @@
 package edu.unimagdalena.demo.entidades;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,12 +9,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+
 @Entity
 @Table(name = "course_material")
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseMaterial {

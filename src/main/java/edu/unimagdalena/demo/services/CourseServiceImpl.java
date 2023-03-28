@@ -12,13 +12,13 @@ import edu.unimagdalena.demo.repositories.StudentRepository;
 @Service
 public class CourseServiceImpl implements CourseService {
     //En un servicio puedo tener mas de un repositorio si asi lo requiero
-
+    @Autowired
     private final CourseRepository courseRepository;
 
     //Este en dado caso que el estudiante no exista
+    @Autowired
     private final StudentRepository studentRepository;
 
-    @Autowired
     public CourseServiceImpl(CourseRepository courseRepository, StudentRepository studentRepository) {
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;

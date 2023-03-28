@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,7 +48,7 @@ public class Course {
     private Set<Student> students = new HashSet<>();
     //un curso puede tener muchos estudiantes y un estudiante puede tener muchos cursos
     //por eso es una lista de estudiantes
-
+    @JsonIgnore//para que no se muestre en el json
     @OneToOne(mappedBy = "course")
     private CourseMaterial courseMaterial;
 
