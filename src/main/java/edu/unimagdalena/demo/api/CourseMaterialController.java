@@ -2,6 +2,7 @@ package edu.unimagdalena.demo.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1")
 public class CourseMaterialController {
     
+    //Segun la estructura del codigo que hemos trabajado el controlador debe contener estos metodos, ya si queremos saber los cursos de courseMaterial debemos crear un metodo que nos permita hacer eso desde Repository, services y luego controller
     private CourseMaterialService courseMaterialService;
     
     
@@ -39,6 +41,7 @@ public class CourseMaterialController {
     }
 
     @GetMapping("/coursesMaterial/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CourseMaterialCreateDto> getCourse(@PathVariable Long id) {
 		CourseMaterialCreateDto data = courseMaterialService.find(id)
                     .map(x -> courseMaterialMapper.toCreateDto(x))
@@ -46,6 +49,7 @@ public class CourseMaterialController {
         return ResponseEntity.status(HttpStatus.FOUND).body(data);
     }
     @GetMapping("/coursesMaterial")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<CourseMaterialDto>> getAllCourseMaterials() {
         List<CourseMaterial> courseMaterials = courseMaterialService.findAll();
         List<CourseMaterialDto> courseMaterialDto = courseMaterials.stream()
@@ -54,17 +58,17 @@ public class CourseMaterialController {
         return new ResponseEntity<>(courseMaterialDto, HttpStatus.OK);
     }
     @PostMapping("/coursesMaterial")
-    public ResponseEntity<CourseMaterialCreateDto> createCourseMaterial(@RequestBody CourseMaterialDto courseMaterialDto) {
-        CourseMaterial courseMaterial = courseMaterialMapper.toEntity(courseMaterialDto);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CourseMaterialCreateDto> createCourseMaterial(@RequestBody CourseMaterial courseMaterial) {
         courseMaterial = courseMaterialService.create(courseMaterial);
         return ResponseEntity.ok(courseMaterialMapper.toCreateDto(courseMaterial));
     }
     @PutMapping("/coursesMaterial/{id}")
-    public ResponseEntity<CourseMaterialCreateDto> updateCourseMaterial(@PathVariable Long id, @RequestBody CourseMaterialDto courseMaterialDto) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CourseMaterialCreateDto> updateCourseMaterial(@PathVariable Long id, @RequestBody CourseMaterial courseMaterial) {
         Optional<CourseMaterial> student = courseMaterialService.find(id);
         if (student.isPresent()) {
-            CourseMaterial courseMaterialUpdated = courseMaterialMapper.toEntity(courseMaterialDto);
-            Optional<CourseMaterial> savedCourseMaterial = courseMaterialService.update(id, courseMaterialUpdated);
+            Optional<CourseMaterial> savedCourseMaterial = courseMaterialService.update(id, courseMaterial);
             CourseMaterialCreateDto courseMaterialCreateDto = courseMaterialMapper.toCreateDto(savedCourseMaterial);
             return ResponseEntity.ok(courseMaterialCreateDto);
         } else {
@@ -73,6 +77,7 @@ public class CourseMaterialController {
     
     }
     @DeleteMapping("/coursesMaterial/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCourseMaterial(@PathVariable Long id) {
         Optional<CourseMaterial> courseMaterial = courseMaterialService.find(id);
         if (courseMaterial.isPresent()) {

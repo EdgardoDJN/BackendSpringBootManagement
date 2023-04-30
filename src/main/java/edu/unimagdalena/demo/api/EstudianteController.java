@@ -7,11 +7,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import edu.unimagdalena.demo.api.dto.CourseCreateDto;
 import edu.unimagdalena.demo.api.dto.CourseMapper;
-import edu.unimagdalena.demo.api.dto.StudentCourseDto;
 import edu.unimagdalena.demo.api.dto.StudentCreateDto;
 import edu.unimagdalena.demo.api.dto.StudentDto;
 import edu.unimagdalena.demo.api.dto.StudentMapper;
-import edu.unimagdalena.demo.entidades.Course;
 import edu.unimagdalena.demo.entidades.Student;
 
 import edu.unimagdalena.demo.services.StudentService;
@@ -36,7 +33,7 @@ import edu.unimagdalena.demo.exceptions.StudentNotFoundException;
 @RequestMapping("/api/v1")
 public class EstudianteController {
 
-    
+    //Segun la estructura del codigo que hemos trabajado el controlador debe contener estos metodos, ya si queremos saber los cursos de un estudiante debemos crear un metodo que nos permita hacer eso desde Repository, services y luego controller
     private final StudentService studentService;
     
     private final StudentMapper studentMapper;
@@ -51,6 +48,7 @@ public class EstudianteController {
         this.courseMapper = courseMapper;
     }
     @GetMapping("/students")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<StudentDto>> getAllStudents() {
         List<Student> students = studentService.findAll();
         if(students.isEmpty()) {
@@ -69,6 +67,7 @@ public class EstudianteController {
     }
     */
     @GetMapping("/students/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<StudentCreateDto> findById(@PathVariable("id") Long id){
 		StudentCreateDto student = studentService.find(id)
                     .map(s -> studentMapper.toCreateDto(s))
@@ -76,7 +75,7 @@ public class EstudianteController {
         return ResponseEntity.status(HttpStatus.FOUND).body(student);
     }
     //Revisar esto de nuevo mañana
-    @GetMapping("/studentscourse/{id}")
+    /*@GetMapping("/studentscourse/{id}")
     public ResponseEntity<StudentCourseDto> getStudentById2(@PathVariable Long id) {
         Optional<Student> student = studentService.find(id);
         if (student != null) {
@@ -89,7 +88,9 @@ public class EstudianteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    */
     @PostMapping("/students")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<StudentCreateDto> createStudent(@RequestBody StudentDto studentDto) {
 		Student student = studentMapper.toEntity(studentDto);
         Student studentCreated = null;
@@ -134,6 +135,7 @@ public class EstudianteController {
     }
     */
     @PutMapping("/students/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<StudentCreateDto> updateStudent(@PathVariable Long id, @RequestBody StudentDto studentDto) {
         Optional<Student> student = studentService.find(id);
         if (student.isPresent()) {
@@ -158,6 +160,7 @@ public class EstudianteController {
     }
     */
     @DeleteMapping("/students/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         studentService.delete(id);
         return ResponseEntity.noContent().build();

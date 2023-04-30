@@ -23,9 +23,7 @@ import javax.persistence.OneToMany;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Teacher {
-//Una entidad debe tener la notación entity de java persistence entity y algunas otras configuraciones vienen de aca ojo aqui    
-//Dependencias las agregamos en el pom.xml
-//Si es spring data vamos a pom le decimos add starters y buscamos spring data jpa sql-> guardarlo
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;//tipo objetuales no primitivos

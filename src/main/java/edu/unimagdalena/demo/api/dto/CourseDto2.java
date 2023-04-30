@@ -1,15 +1,16 @@
 package edu.unimagdalena.demo.api.dto;
 
-import edu.unimagdalena.demo.entidades.Course;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseMaterialCreateDto {
+public class CourseDto2 {
     private Long id;
-    private String url;
-    private CourseCreateDto course;
+    private String name;
 }

@@ -1,14 +1,13 @@
 package edu.unimagdalena.demo.api;
 
 import java.net.URI;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import edu.unimagdalena.demo.api.dto.CourseCreateDto;
+
 import edu.unimagdalena.demo.api.dto.CourseMapper;
 import edu.unimagdalena.demo.api.dto.TeacherCourseDto;
 import edu.unimagdalena.demo.api.dto.TeacherCreationDto;
 import edu.unimagdalena.demo.api.dto.TeacherDto;
 import edu.unimagdalena.demo.api.dto.TeacherMapper;
-import edu.unimagdalena.demo.entidades.Course;
 import edu.unimagdalena.demo.entidades.Teacher;
 import edu.unimagdalena.demo.exceptions.DuplicateCodigoException;
 import edu.unimagdalena.demo.exceptions.TeacherNotFoundException;
@@ -34,8 +32,7 @@ import edu.unimagdalena.demo.services.TeacherService;
 @RestController
 @RequestMapping("/api/v1")
 public class TeacherController {
-    //Falta terminar los restantes metodos
-    //Inyectar esto para no estar instanciando
+    //Segun la estructura del codigo que hemos trabajado, el controlador debe contener estos metodos, ya si queremos saber los cursos de un profesor debemos crear un metodo que nos permita hacer eso desde Repository, services y luego controller
     
     private final TeacherService teacherService;
     
@@ -43,8 +40,7 @@ public class TeacherController {
    
     private final CourseMapper courseMapper;
 
-    
-    
+      
     
     public TeacherController(TeacherService teacherService, TeacherMapper teacherMapper, CourseMapper courseMapper) {
         this.teacherService = teacherService;
@@ -59,6 +55,7 @@ public class TeacherController {
     }
     */
     @GetMapping("/teachers")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<List<TeacherDto>> getAllTeachers() {
 		List<Teacher> teachers = teacherService.findAll();
 		List<TeacherDto> teacherDtos = teachers.stream().map(teacherMapper::toDto).collect(Collectors.toList());
@@ -71,6 +68,7 @@ public class TeacherController {
     }¨
     */
     @GetMapping("/teachers/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<TeacherCreationDto> getTeacherById(@PathVariable Long id) {
 		TeacherCreationDto teacher = teacherService.find(id)
                     .map(t -> teacherMapper.toTeacherCreationDto(t))
@@ -79,19 +77,16 @@ public class TeacherController {
         return ResponseEntity.status(HttpStatus.FOUND).body(teacher);
 		
 	}
-    @GetMapping("/teacherscourse/{id}")
-    public ResponseEntity<TeacherCourseDto> getTeacherById2(@PathVariable Long id) {
-        Optional<Teacher> teacher = teacherService.find(id);
-        if (teacher != null) {
-            TeacherCreationDto teacherCreationDto = teacherMapper.toCreationDto(teacher);
-            Set<Course> courses = teacher.get().getCourses();
-            Set<CourseCreateDto> courseDtos = courses.stream().map(courseMapper::toCreateDto).collect(Collectors.toSet());
-            TeacherCourseDto teacherCourseDto = teacherMapper.toCourseDto(teacherCreationDto, courseDtos);
-            return new ResponseEntity<>(teacherCourseDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/teachercourses/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TeacherCourseDto> getCoursesByTeacherId(@PathVariable Long id) {
+        Teacher teacher = teacherService.find(id).orElseThrow(TeacherNotFoundException::new);
+        TeacherCourseDto teacherCourseDto = teacherMapper.toTeacherCourseDto(teacher);
+        return ResponseEntity.status(HttpStatus.FOUND).body(teacherCourseDto);
+                            
+        
     }
+    
     /*@PostMapping("/teachers")
     public ResponseEntity<TeacherCreationDto> create(@RequestBody TeacherDto teacher)
     {
@@ -108,6 +103,7 @@ public class TeacherController {
     }
     */
     @PostMapping("/teachers")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<TeacherCreationDto> createTeacher(@RequestBody TeacherDto teacherDto) {
 		Teacher teacher = teacherMapper.toEntity(teacherDto);
         Teacher teacherCreated = null;
@@ -123,26 +119,6 @@ public class TeacherController {
                         .buildAndExpand(teacherCreationDto.getId())
                         .toUri();
         return ResponseEntity.created(location).body(teacherCreationDto);
-    }
-    @PostMapping("/teacherscourse")
-    public ResponseEntity<TeacherCourseDto> addCourseToTeacher(@RequestBody TeacherCourseDto teacherCourseDto) {
-        Optional<Teacher> teacher = teacherService.find(teacherCourseDto.getId());
-        if(teacher == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else
-        {
-            Set<Course> courses = new HashSet<>();
-            for (CourseCreateDto courseCreateDto : teacherCourseDto.getCourses()) {
-                Course course = courseMapper.toEntity(courseCreateDto);
-                course.setTeacher(teacher.get());
-                courses.add(course);
-            }
-            teacher.get().setCourses(courses);
-            TeacherCreationDto teachercreationDto = teacherMapper.toCreationDto(teacher);
-            TeacherCourseDto savedTeacherCourseDto = teacherMapper.toCourseDto(teachercreationDto, teacherCourseDto.getCourses());
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedTeacherCourseDto);
-        }
     }
 	
     
@@ -166,6 +142,7 @@ public class TeacherController {
     }
     */
     @PutMapping("/teachers/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<TeacherCreationDto> updateTeacher(@PathVariable Long id, @RequestBody TeacherDto teacherDto) {
 		Optional<Teacher> teacherToUpdate = teacherService.find(id);
 		if (teacherToUpdate.isPresent()) {
@@ -177,19 +154,6 @@ public class TeacherController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-    @PutMapping("/teacherscourse/{id}")
-    public ResponseEntity<TeacherCourseDto> updateTeacherCourse(@PathVariable Long id, @RequestBody TeacherCourseDto teacherCourseDto) {
-        Optional<Teacher> teacherToUpdate = teacherService.find(id);
-        if (teacherToUpdate.isPresent()) {
-            Teacher updatedTeacher = teacherMapper.toEntity(teacherCourseDto);
-            Optional<Teacher> savedTeacher = teacherService.update(id, updatedTeacher);
-            TeacherCreationDto teacherCreationDto = teacherMapper.toCreationDto(savedTeacher);
-            TeacherCourseDto teacherCourseDtoUpdated = teacherMapper.toCourseDto(teacherCreationDto, teacherCourseDto.getCourses());
-            return new ResponseEntity<>(teacherCourseDtoUpdated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
     /*@DeleteMapping("/teachers/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         teacherService.delete(id);
@@ -197,6 +161,7 @@ public class TeacherController {
     }
     */
     @DeleteMapping("/teachers/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<HttpStatus> deleteTeacher(@PathVariable Long id) {
 		teacherService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

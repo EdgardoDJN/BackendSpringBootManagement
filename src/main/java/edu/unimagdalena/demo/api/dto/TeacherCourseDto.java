@@ -11,5 +11,5 @@ public class TeacherCourseDto {
     private String firstName;
     private String lastName;
     private String codigo;
-    Set<CourseCreateDto> courses;
+    Set<CourseDto2> courses;
 }

@@ -1,6 +1,7 @@
 package edu.unimagdalena.demo.api.dto;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -50,12 +51,18 @@ public class TeacherMapper {
         teacherCreationDto.setCodigo(savedTeacher.get().getCodigo());
         return teacherCreationDto;
     }
-    public TeacherCourseDto toCourseDto(TeacherCreationDto teacherCreationDto, Set<CourseCreateDto> courseDtos) {
+    public TeacherCourseDto toTeacherCourseDto(Teacher teacher) {
         TeacherCourseDto teacherCourseDto = new TeacherCourseDto();
-        teacherCourseDto.setId(teacherCreationDto.getId());
-        teacherCourseDto.setFirstName(teacherCreationDto.getFirstName());
-        teacherCourseDto.setLastName(teacherCreationDto.getLastName());
-        teacherCourseDto.setCodigo(teacherCreationDto.getCodigo());
+       teacherCourseDto.setId(teacher.getId());
+        teacherCourseDto.setFirstName(teacher.getFirstName());
+        teacherCourseDto.setLastName(teacher.getLastName());
+        teacherCourseDto.setCodigo(teacher.getCodigo());
+        Set<CourseDto2> courseDtos = teacher.getCourses().stream().map(course -> {
+            CourseDto2 courseDto = new CourseDto2();
+            courseDto.setId(course.getId());
+            courseDto.setName(course.getName());
+            return courseDto;
+        }).collect(Collectors.toSet());
         teacherCourseDto.setCourses(courseDtos);
         return teacherCourseDto;
     }
@@ -66,6 +73,13 @@ public class TeacherMapper {
         teacher.setLastName(teacherCourseDto.getLastName());
         teacher.setCodigo(teacherCourseDto.getCodigo());
         return teacher;
+    }
+    public TeacherDto toDto2(Teacher teacher) {
+        TeacherDto dto = new TeacherDto();
+        dto.setFirstName(teacher.getFirstName());
+        dto.setLastName(teacher.getLastName());
+        dto.setCodigo(teacher.getCodigo());
+        return dto;
     }
     
 }

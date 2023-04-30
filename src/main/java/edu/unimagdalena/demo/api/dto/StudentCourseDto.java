@@ -14,5 +14,5 @@ public class StudentCourseDto {
     private String codigo;
     private LocalDate birthDate;
     private Gender gender;
-    Set<CourseCreateDto> courses;
+    Set<CourseDto2> courses;
 }

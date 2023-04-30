@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+//@data tiene solo constructor por parametros
 @Entity
 @Table(name = "course_material")
 @Setter
