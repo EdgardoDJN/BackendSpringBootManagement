@@ -8,7 +8,5 @@ import edu.unimagdalena.demo.entidades.Student;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    //query methods
-    //List<Student> findByFirstNameStartingWith(String firstName);
     Optional<Student> findByCodigo(String codigo);
 }

@@ -36,9 +36,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course create(Course course) {
-        //no tenemos el id en este momento
-        //El patron builder se utiliza cuando tenemos muchos atributos en una clase
-        //hay mcuhas combinaciones de constructores
         Course newCourse = new Course(null,course.getName(), course.getTeacher(), course.getStudents(), null);
         return courseRepository.save(newCourse);
     }

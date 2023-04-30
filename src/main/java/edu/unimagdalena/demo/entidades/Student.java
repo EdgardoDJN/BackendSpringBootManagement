@@ -19,27 +19,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data//incluye getter, setter y el argumento de todos los parametros
+@Data
 @Entity
 @Table(name = "students")
-@NoArgsConstructor//constructor por defecto
-@AllArgsConstructor//constructor con todos los parametros
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     @Id//va todo seguido
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //va todo seguido
-    private Long id;//va todo seguido
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    private Long id;
     @Column(nullable = false)
-    private String lastName;//si yo no le coloco @Column ya sobreentiende que es el mismo nombre de la variable
+    private String lastName;
     @Column(nullable = false)
     private String firstname;
     @Column(nullable = false, unique = true)
     private String codigo;
     @Column
     private LocalDate birthDate;
-    @Enumerated(EnumType.STRING)//nos dice si es MALE o FEMALE y ordinal es el numero dependiendo de la posicion
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     
-    @JsonIgnore//para que no se muestre en el json
+    @JsonIgnore
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses;
 }

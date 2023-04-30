@@ -3,6 +3,7 @@ package edu.unimagdalena.demo.api.dto;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -54,15 +55,17 @@ public class StudentMapper {
         dto.setGender(savedStudent.get().getGender());
         return dto;
     }
-    public StudentCourseDto toCourseDto(StudentCreateDto studentCreateDto, Set<CourseCreateDto> courseDtos) {
+    public StudentCourseDto toCourseDto(Student student) {
         StudentCourseDto studentCourseDto = new StudentCourseDto();
-        studentCourseDto.setId(studentCreateDto.getId());
-        studentCourseDto.setFirstName(studentCreateDto.getFirstName());
-        studentCourseDto.setLastName(studentCreateDto.getLastName());
-        studentCourseDto.setCodigo(studentCreateDto.getCodigo());
-        studentCourseDto.setBirthDate(studentCreateDto.getBirthDate());
-        studentCourseDto.setGender(studentCreateDto.getGender());
-        studentCourseDto.setCourses(courseDtos);
+        studentCourseDto.setFirstName(student.getFirstname());
+        studentCourseDto.setLastName(student.getLastName());
+        studentCourseDto.setCodigo(student.getCodigo());
+        studentCourseDto.setBirthDate(student.getBirthDate());
+        studentCourseDto.setGender(student.getGender());
+        Set<CourseDto2> courses = student.getCourses().stream()
+                .map(course -> new CourseDto2(course.getId(), course.getName()))
+                .collect(Collectors.toSet());
+        studentCourseDto.setCourses(courses);
         return studentCourseDto;
     }
     public Student toEntity(StudentCourseDto dto) {

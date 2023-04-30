@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class CourseController {
         this.courseMapper = courseMapper;
     }
     @GetMapping("/courses/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CourseCreateDto> getCourse(@PathVariable Long id) {
 		CourseCreateDto data = courseService.find(id)
                     .map(x -> courseMapper.toCreateDto(x))
@@ -44,6 +46,7 @@ public class CourseController {
     }
 
     @GetMapping("/courses")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<CourseDto>> getCourses() {
         List<Course> data = courseService.findAll();
         if(data.isEmpty()) {
@@ -54,19 +57,20 @@ public class CourseController {
         }
     }
 
+    //Error encontrado, toca referenciar los metodos que estan por debajo de course porque sino no los encuentra por id, entoces en courseDto tanto a student como teacher son del tipo createDto para que tengan sus id y no se pierdan
     @PostMapping("/courses")
-    public ResponseEntity<CourseCreateDto> createCourse(@RequestBody CourseDto courseDto) {
-        Course course = courseMapper.toEntity(courseDto);
-        Course course2 = courseService.create(course);
-        return new ResponseEntity<CourseCreateDto>(courseMapper.toCreateDto(course2), HttpStatus.CREATED);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CourseDto> createCourse(@RequestBody Course course) {
+        Course course4 = courseService.create(course);
+        return new ResponseEntity<CourseDto>(courseMapper.toDto(course4), HttpStatus.CREATED);
     }
 
     @PutMapping("/courses/{id}")
-    public ResponseEntity<CourseCreateDto> updateCourse(@PathVariable Long id, @RequestBody CourseDto courseDto) {
-        Optional<Course> course = courseService.find(id);
-        if (course.isPresent()) {
-            Course course2 = courseMapper.toEntity(courseDto);
-            Optional<Course> savedCourse = courseService.update(id, course2);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CourseCreateDto> updateCourse(@PathVariable Long id, @RequestBody Course course) {
+        Optional<Course> course2 = courseService.find(id);
+        if (course2.isPresent()) {
+            Optional<Course> savedCourse = courseService.update(id, course);
             return ResponseEntity.ok(courseMapper.toCreateDto(savedCourse));
 
         }else{
@@ -75,6 +79,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/courses/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CourseCreateDto> deleteCourse(@PathVariable Long id) {
         Optional<Course> course = courseService.find(id);
         if (course.isPresent()) {
