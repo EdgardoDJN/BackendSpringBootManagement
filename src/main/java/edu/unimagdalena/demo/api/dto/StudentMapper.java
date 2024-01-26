@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import edu.unimagdalena.demo.entidades.Student;
+import edu.unimagdalena.demo.entities.Student;
 
 
 @Component

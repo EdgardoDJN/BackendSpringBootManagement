@@ -1,4 +1,4 @@
-package edu.unimagdalena.demo.entidades;
+package edu.unimagdalena.demo.entities;
 
 public enum Gender {
     MALE, FEMALE 

@@ -1,4 +1,4 @@
-package edu.unimagdalena.demo.entidades;
+package edu.unimagdalena.demo.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import edu.unimagdalena.demo.entidades.Teacher;
+import edu.unimagdalena.demo.entities.Teacher;
 
 @Component
 public class TeacherMapper {

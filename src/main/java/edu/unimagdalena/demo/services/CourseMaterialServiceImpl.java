@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.unimagdalena.demo.entidades.CourseMaterial;
+import edu.unimagdalena.demo.entities.CourseMaterial;
 import edu.unimagdalena.demo.repositories.CourseMaterialRepository;
 
 @Service

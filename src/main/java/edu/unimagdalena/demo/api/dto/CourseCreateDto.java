@@ -3,8 +3,8 @@ package edu.unimagdalena.demo.api.dto;
 
 import java.util.Set;
 
-import edu.unimagdalena.demo.entidades.Student;
-import edu.unimagdalena.demo.entidades.Teacher;
+import edu.unimagdalena.demo.entities.Student;
+import edu.unimagdalena.demo.entities.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

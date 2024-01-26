@@ -3,7 +3,7 @@ package edu.unimagdalena.demo.api.dto;
 import java.time.LocalDate;
 import java.util.Set;
 
-import edu.unimagdalena.demo.entidades.Gender;
+import edu.unimagdalena.demo.entities.Gender;
 import lombok.Data;
 
 @Data

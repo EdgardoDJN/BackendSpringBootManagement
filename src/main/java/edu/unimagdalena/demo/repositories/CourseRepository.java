@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import edu.unimagdalena.demo.entidades.Course;
+import edu.unimagdalena.demo.entities.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {

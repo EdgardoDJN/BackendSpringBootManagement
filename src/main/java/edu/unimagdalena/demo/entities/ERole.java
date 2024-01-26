@@ -1,4 +1,4 @@
-package edu.unimagdalena.demo.entidades;
+package edu.unimagdalena.demo.entities;
 
 public enum ERole {
     //Asi debe comenzar ROLE_ para que funcione con Spring Security

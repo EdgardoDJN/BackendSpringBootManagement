@@ -22,9 +22,9 @@ import edu.unimagdalena.demo.api.dto.JwtResponse;
 import edu.unimagdalena.demo.api.dto.LoginRequest;
 import edu.unimagdalena.demo.api.dto.MessageResponse;
 import edu.unimagdalena.demo.api.dto.SignupRequest;
-import edu.unimagdalena.demo.entidades.ERole;
-import edu.unimagdalena.demo.entidades.Role;
-import edu.unimagdalena.demo.entidades.User;
+import edu.unimagdalena.demo.entities.ERole;
+import edu.unimagdalena.demo.entities.Role;
+import edu.unimagdalena.demo.entities.User;
 import edu.unimagdalena.demo.repositories.RoleRepository;
 import edu.unimagdalena.demo.repositories.UserRepository;
 import edu.unimagdalena.demo.security.user.jwt.JwtUtils;
@@ -86,9 +86,10 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+		User user = new User(
+							signUpRequest.getUsername(), 
+							signUpRequest.getEmail(),
+							encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();

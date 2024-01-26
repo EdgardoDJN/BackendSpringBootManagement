@@ -23,8 +23,7 @@ import edu.unimagdalena.demo.api.dto.CourseMapper;
 import edu.unimagdalena.demo.api.dto.StudentCreateDto;
 import edu.unimagdalena.demo.api.dto.StudentDto;
 import edu.unimagdalena.demo.api.dto.StudentMapper;
-import edu.unimagdalena.demo.entidades.Student;
-
+import edu.unimagdalena.demo.entities.Student;
 import edu.unimagdalena.demo.services.StudentService;
 import edu.unimagdalena.demo.exceptions.DuplicateCodigoException;
 import edu.unimagdalena.demo.exceptions.StudentNotFoundException;
