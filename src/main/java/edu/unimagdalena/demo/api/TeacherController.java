@@ -24,7 +24,7 @@ import edu.unimagdalena.demo.api.dto.TeacherCourseDto;
 import edu.unimagdalena.demo.api.dto.TeacherCreationDto;
 import edu.unimagdalena.demo.api.dto.TeacherDto;
 import edu.unimagdalena.demo.api.dto.TeacherMapper;
-import edu.unimagdalena.demo.entidades.Teacher;
+import edu.unimagdalena.demo.entities.Teacher;
 import edu.unimagdalena.demo.exceptions.DuplicateCodigoException;
 import edu.unimagdalena.demo.exceptions.TeacherNotFoundException;
 import edu.unimagdalena.demo.services.TeacherService;

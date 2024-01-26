@@ -16,7 +16,7 @@ import edu.unimagdalena.demo.api.dto.CourseCreateDto;
 import edu.unimagdalena.demo.api.dto.CourseMaterialCreateDto;
 import edu.unimagdalena.demo.api.dto.CourseMaterialDto;
 import edu.unimagdalena.demo.api.dto.CourseMaterialMapper;
-import edu.unimagdalena.demo.entidades.CourseMaterial;
+import edu.unimagdalena.demo.entities.CourseMaterial;
 import edu.unimagdalena.demo.services.CourseMaterialService;
 import edu.unimagdalena.demo.exceptions.CourseMaterialNotFoundException;
 

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import edu.unimagdalena.demo.entidades.CourseMaterial;
+import edu.unimagdalena.demo.entities.CourseMaterial;
 @Component
 public class CourseMaterialMapper {
     public CourseMaterialDto toDto(CourseMaterial courseMaterial) {

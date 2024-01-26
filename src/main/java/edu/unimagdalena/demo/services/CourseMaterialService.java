@@ -2,8 +2,7 @@ package edu.unimagdalena.demo.services;
 import java.util.List;
 import java.util.Optional;
 
-
-import edu.unimagdalena.demo.entidades.CourseMaterial;
+import edu.unimagdalena.demo.entities.CourseMaterial;
 
 public interface CourseMaterialService {
     List<CourseMaterial> findAll();

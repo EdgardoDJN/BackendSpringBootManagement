@@ -1,4 +1,4 @@
-package edu.unimagdalena.demo.entidades;
+package edu.unimagdalena.demo.entities;
 
 import java.time.LocalDate;
 import java.util.Set;

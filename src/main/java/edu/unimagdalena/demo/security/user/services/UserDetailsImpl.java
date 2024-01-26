@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import edu.unimagdalena.demo.entidades.User;
+import edu.unimagdalena.demo.entities.User;
 
 
 public class UserDetailsImpl implements UserDetails {

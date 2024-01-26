@@ -1,4 +1,4 @@
-package edu.unimagdalena.demo.entidades;
+package edu.unimagdalena.demo.entities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -50,8 +50,5 @@ public class Course {
     //por eso es una lista de estudiantes
     @JsonIgnore//para que no se muestre en el json
     @OneToOne(mappedBy = "course")
-    private CourseMaterial courseMaterial;
-
-
-    
+    private CourseMaterial courseMaterial;   
 }

@@ -5,7 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import edu.unimagdalena.demo.entidades.Course;
+
+import edu.unimagdalena.demo.entities.Course;
 import edu.unimagdalena.demo.repositories.CourseRepository;
 import edu.unimagdalena.demo.repositories.StudentRepository;
 

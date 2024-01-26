@@ -10,9 +10,9 @@ import javax.persistence.Entity;
 
 import org.springframework.stereotype.Component;
 
-import edu.unimagdalena.demo.entidades.Course;
-import edu.unimagdalena.demo.entidades.Student;
-import edu.unimagdalena.demo.entidades.Teacher;
+import edu.unimagdalena.demo.entities.Course;
+import edu.unimagdalena.demo.entities.Student;
+import edu.unimagdalena.demo.entities.Teacher;
 
 @Component
 public class CourseMapper {

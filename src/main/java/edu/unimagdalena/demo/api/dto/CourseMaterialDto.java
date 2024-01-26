@@ -1,5 +1,5 @@
 package edu.unimagdalena.demo.api.dto;
-import edu.unimagdalena.demo.entidades.Course;
+import edu.unimagdalena.demo.entities.Course;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

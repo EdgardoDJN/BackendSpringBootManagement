@@ -3,7 +3,7 @@ package edu.unimagdalena.demo.services;
 import java.util.List;
 import java.util.Optional;
 
-import edu.unimagdalena.demo.entidades.Teacher;
+import edu.unimagdalena.demo.entities.Teacher;
 
 public interface TeacherService {
     Teacher create(Teacher teacher);
